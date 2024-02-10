@@ -6,8 +6,10 @@ const phrases = [
   "Are you sure?",
   "Are you really sure?",
   "Pretty please?",
+  "Pretty pretty please?",
   "You're so mean 😢",
-  "I'm going to be sad 😭"
+  "I'm going to be sad 😭",
+  "Yes is the only answer",
 ];
 
 function App() {
@@ -30,24 +32,25 @@ function App() {
           <img
             src="https://media.tenor.com/gUiu1zyxfzYAAAAi/bear-kiss-bear-kisses.gif"
           />
-          <h2>Yay!</h2>
+          <h2>Yay! Lets go get some food now 🥘</h2>
         </>
       ) : (
         <>
           <img
+            className='jumpingBearImg'
             src="https://gifdb.com/images/high/cute-love-bear-roses-ou7zho5oosxnpo6k.gif"
           />
-          <div>Will you be my valentine?</div>
-          <div>
+          <h2>Will you be my valentine Soeun?</h2>
+          <div className='buttonContainer'>
             <button
-              className='yesButton'
+              className='yesButton button'
               style={{ fontSize: yesButtonSize }}
               onClick={() => setYesPressed(true)}
             >
               Yes
             </button>
             <button
-              className='noButton'
+              className='noButton button'
               onClick={() => handleNoClick()}
             >
               {getNoButtonText()}
