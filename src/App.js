@@ -84,7 +84,7 @@ function App() {
   function handleNoClick() {
     if (noCount < phrases.length - 1) {
       if (noCount === 0) {
-        setTimeout(playHuhSound, 1000);
+        setTimeout(playHuhSound, 800);
       } else if (noCount === 1) {
         stopHuhSound();
         playSuspiciousSound();
