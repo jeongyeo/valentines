@@ -6,13 +6,29 @@
   height: 100vh;
 }
 
+.mediaRow {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.mediaRow .mediaItem {
+  width: 240px;
+  height: 240px;
+  object-fit: cover;
+  cursor: pointer;
+}
+
 .buttonContainer {
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.jumpingBearImg {
+.noImg {
   width: 200px;
 }
 
