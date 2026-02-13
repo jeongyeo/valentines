@@ -1,9 +1,10 @@
 import './App.css';
 import { useState } from 'react';
+import { useSingleSound } from './SingleSoundContext';
 
 const phrases = [
   "No",
-  "Are you sure?",
+  "Nah I'm good",
   "Are you really sure?",
   "Pretty please?",
   "Pretty pretty please?",
@@ -12,13 +13,53 @@ const phrases = [
   "Yes is the only answer",
 ];
 
+const CATS = {
+  happy: {
+    id: 'happy',
+    gif: '/images/happy.gif',
+    mp3: '/sounds/happy.mp3',
+  },
+  dancing: {
+    id: 'dancing',
+    gif: '/images/dancing.gif',
+    mp3: '/sounds/dancing.mp3', //chinese tiktok dance song
+  },
+  huh: {
+    id: 'huh',
+    gif: '/images/huh.gif',
+    mp3: '/sounds/huh.mp3',
+  },
+  headache: {
+    id: 'headache',
+    gif: '/images/headache.png',
+    mp3: '/sounds/headache.mp3',
+  },
+  oiia: {
+    id: 'oiia',
+    gif: '/images/oiia.gif',
+    mp3: '/sounds/oiia.mp3',
+  },
+  sad: {
+    id: 'sad',
+    gif: '/images/sad.gif',
+    mp3: '/sounds/sad.mp3',
+  },
+  suspicious: {
+    id: 'suspicious',
+    gif: '/images/suspicious.gif',
+    mp3: '/sounds/suspicious.mp3',
+  },
+};
+
 function App() {
   const [noCount, setNoCount] = useState(0);
   const [yesPressed, setYesPressed] = useState(false);
-  const yesButtonSize = noCount * 20 + 16;
+  const [playHappyCatSound] = useSingleSound(CATS.happy.id, CATS.happy.mp3);
 
   function handleNoClick() {
-    setNoCount(noCount + 1);
+    if (noCount < phrases.length - 1) {
+      setNoCount(noCount + 1);
+    }
   }
 
   function getNoButtonText() {
@@ -30,7 +71,8 @@ function App() {
       {yesPressed ? (
         <>
           <img
-            src="https://media.tenor.com/gUiu1zyxfzYAAAAi/bear-kiss-bear-kisses.gif"
+            src={CATS.happy.gif}
+            onClick={playHappyCatSound}
           />
           <h2>Yay! Lets go get some food now 🥘</h2>
         </>
@@ -38,13 +80,12 @@ function App() {
         <>
           <img
             className='jumpingBearImg'
-            src="https://gifdb.com/images/high/cute-love-bear-roses-ou7zho5oosxnpo6k.gif"
+            src="/images/bear-roses.gif"
           />
           <h2>Will you be my valentine Soeun?</h2>
           <div className='buttonContainer'>
             <button
               className='yesButton button'
-              style={{ fontSize: yesButtonSize }}
               onClick={() => setYesPressed(true)}
             >
               Yes
