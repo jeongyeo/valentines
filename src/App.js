@@ -16,38 +16,38 @@ const phrases = [
 const CATS = {
   happy: {
     id: 'happy',
-    gif: '/images/happy.gif',
-    mp3: '/sounds/happy.mp3',
+    gif: '/images/happy.gif', //downloaded
+    mp3: '/sounds/happy.mp3', //downloaded
   },
   dancing: {
     id: 'dancing',
-    gif: '/images/dancing.gif',
-    mp3: '/sounds/dancing.mp3', //chinese tiktok dance song
+    gif: '/images/dancing.gif', //downloaded
+    mp3: '/sounds/dancing.mp3', //TODO: chinese tiktok dance song
   },
   huh: {
     id: 'huh',
-    gif: '/images/huh.gif',
-    mp3: '/sounds/huh.mp3',
+    gif: '/images/huh.gif', //downloaded
+    mp3: '/sounds/huh.mp3', //downloaded
   },
   headache: {
     id: 'headache',
-    gif: '/images/headache.png',
-    mp3: '/sounds/headache.mp3',
+    gif: '/images/headache.png', //downloaded
+    mp3: '/sounds/headache.mp3', //TODO: headache sound
   },
   oiia: {
     id: 'oiia',
-    gif: '/images/oiia.gif',
-    mp3: '/sounds/oiia.mp3',
+    gif: '/images/oiia.gif', //downloaded
+    mp3: '/sounds/oiia.mp3', //downloaded
   },
   sad: {
     id: 'sad',
-    gif: '/images/sad.gif',
-    mp3: '/sounds/sad.mp3',
+    gif: '/images/sad.gif', //downloaded
+    mp3: '/sounds/sad.mp3', //downloaded
   },
   suspicious: {
     id: 'suspicious',
-    gif: '/images/suspicious.gif',
-    mp3: '/sounds/suspicious.mp3',
+    gif: '/images/suspicious.gif', //downloaded
+    mp3: '/sounds/suspicious.mp3', //downloaded
   },
 };
 
