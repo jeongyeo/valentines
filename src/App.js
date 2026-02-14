@@ -5,48 +5,39 @@ import useSound from 'use-sound';
 const phrases = [
   "No",
   "Nah I'm good",
-  "Are you really sure?",
-  "Pretty please?",
-  "You're so mean 😢",
+  "Pretty please? 😢",
   "I'm going to be sad 😭",
-  "Yes is the only answer",
+  "You're hurting my head 😱",
+  "Catch me",
 ];
 
 const CATS = {
   happy: {
-    id: 'happy',
     gif: '/images/happy.gif',
     mp3: '/sounds/happy.mp3',
   },
   dancing: {
-    id: 'dancing',
     mp4: '/videos/dancing.mp4',
   },
   huh: {
-    id: 'huh',
     gif: '/images/huh.gif',
     mp3: '/sounds/huh.mp3',
   },
   headache: {
-    id: 'headache',
     mp4: '/videos/headache.mp4',
   },
   oiiaStanding: {
-    id: 'oiiaStanding',
     gif: '/images/oiia-standing.gif',
   },
   oiiaSpinning: {
-    id: 'oiiaSpinning',
     gif: '/images/oiia-spinning.gif',
     mp3: '/sounds/oiia.mp3',
   },
   sad: {
-    id: 'sad',
     gif: '/images/sad.gif',
     mp3: '/sounds/sad.mp3',
   },
   suspicious: {
-    id: 'suspicious',
     gif: '/images/suspicious.gif',
     mp3: '/sounds/suspicious.mp3',
   },
@@ -56,14 +47,22 @@ function App() {
   const [noCount, setNoCount] = useState(0);
   const [yesPressed, setYesPressed] = useState(false);
   const [isDancingMuted, setIsDancingMuted] = useState(true);
+  const [oiiaPosition, setOiiaPosition] = useState({ x: 0, y: 0 });
+  const [isOiiaMoving, setIsOiiaMoving] = useState(false);
+  const [oiiaCount, setOiiaCount] = useState(0);
   const happyGifRef = useRef(null);
   const dancingVideoRef = useRef(null);
+  const oiiaDivRef = useRef(null);
   const [playHappyCatSound, { stop: stopHappyCatSound }] = useSound(CATS.happy.mp3, { loop: true, interrupt: true });
   const [playHuhSound, { stop: stopHuhSound }] = useSound(CATS.huh.mp3);
   const [playSuspiciousSound, { stop: stopSuspiciousSound }] = useSound(CATS.suspicious.mp3);
   const [playSadSound, { stop: stopSadSound }] = useSound(CATS.sad.mp3);
+  const [playOiiaSound, { stop: stopOiiaSound }] = useSound(CATS.oiiaSpinning.mp3);
 
   useEffect(() => {
+    stopHuhSound();
+    stopSuspiciousSound();
+    stopSadSound();
     if (yesPressed) playHappyCatSound();
   }, [yesPressed, playHappyCatSound]);
 
@@ -93,9 +92,59 @@ function App() {
         playSadSound();
       } else if (noCount === 3) {
         stopSadSound();
+      } else if (noCount === 4) {
+        setOiiaPosition({ x: window.innerWidth / 2 - 45, y: window.innerHeight / 2 - 125 });
       }
 
       setNoCount(noCount + 1);
+    }
+  }
+
+  function onOiiaClick() {
+    const divElement = oiiaDivRef.current;
+    if (!divElement) return;
+
+    // Get the div's natural dimensions
+    const divWidth = divElement.offsetWidth;
+    const divHeight = divElement.offsetHeight;
+
+    const viewportWidth = window.innerWidth;
+    const viewportHeight = window.innerHeight;
+
+    // Calculate max position ensuring div stays within viewport
+    const maxX = Math.max(0, viewportWidth - divWidth);
+    const maxY = Math.max(0, viewportHeight - divHeight);
+
+    // Ensure new position is at least 50% of screen away from current position
+    let randomX, randomY;
+    const minDistanceX = viewportWidth * 0.25;
+    const minDistanceY = viewportHeight * 0.25;
+    const currentX = oiiaPosition.x;
+    const currentY = oiiaPosition.y;
+
+    do {
+      randomX = Math.random() * maxX;
+      randomY = Math.random() * maxY;
+    } while (
+      Math.abs(randomX - currentX) < minDistanceX &&
+      Math.abs(randomY - currentY) < minDistanceY
+    );
+
+    setOiiaPosition({ x: randomX, y: randomY });
+    setIsOiiaMoving(true);
+    playOiiaSound();
+    setOiiaCount(oiiaCount + 1);
+  }
+
+  function onOiiaMovementFinished(event) {
+    if (event.propertyName === 'left') {
+      stopOiiaSound();
+      setIsOiiaMoving(false);
+      if (oiiaCount >= 5) {
+        setTimeout(() => {
+          onOiiaClick();
+        }, 200);
+      }
     }
   }
 
@@ -169,12 +218,45 @@ function App() {
             >
               Yes
             </button>
-            <button
-              className='noButton button'
-              onClick={() => handleNoClick()}
-            >
-              {getNoButtonText()}
-            </button>
+            {noCount === 5 ? (
+              <div
+                ref={oiiaDivRef}
+                style={{
+                  position: 'fixed',
+                  left: `${oiiaPosition.x}px`,
+                  top: `${oiiaPosition.y}px`,
+                  transition: 'left 1.5s ease-in-out, top 1.5s ease-in-out'
+                }}
+                onClick={onOiiaClick}
+                onTransitionEnd={onOiiaMovementFinished}
+              >
+                {isOiiaMoving ? (
+                  <img
+                    src={CATS.oiiaSpinning.gif}
+                    className='oiia-dancing'
+                  />
+                ) : (
+                  <>
+                    <img
+                      src={CATS.oiiaStanding.gif}
+                      className='oiia-standing'
+                    />
+                    <button
+                      className='noButton button'
+                    >
+                      {getNoButtonText()}
+                    </button>
+                  </>
+                )}
+              </div>
+            ) : (
+              <button
+                className='noButton button'
+                onClick={() => handleNoClick()}
+              >
+                {getNoButtonText()}
+              </button>
+            )}
           </div>
         </>
       )}

@@ -70,3 +70,21 @@
 .noButton:hover {
   background-color: rgb(209, 38, 38);
 }
+
+.oiia-standing {
+  width: 150px;
+  position: absolute;
+  top: -75px;
+  right: -28px;
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+.oiia-dancing {
+  width: 150px;
+  position: absolute;
+  top: -75px;
+  right: -110px;
+  pointer-events: auto;
+  cursor: pointer;
+}
