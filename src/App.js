@@ -133,6 +133,7 @@ function App() {
     );
 
     setOiiaPosition({ x: randomX, y: randomY });
+    setIsOiiaMoving(true);
     isOiiaMovingRef.current = true;
     playOiiaSound();
     setOiiaCount(oiiaCount + 1);
@@ -141,6 +142,7 @@ function App() {
   function onOiiaMovementFinished(event) {
     if (event.propertyName === 'left') {
       stopOiiaSound();
+      setIsOiiaMoving(false);
       isOiiaMovingRef.current = false;
       if (oiiaCount >= 5) {
         setTimeout(() => {
@@ -232,7 +234,7 @@ function App() {
                 onClick={onOiiaClick}
                 onTransitionEnd={onOiiaMovementFinished}
               >
-                {isOiiaMovingRef.current ? (
+                {isOiiaMoving ? (
                   <img
                     src={CATS.oiiaSpinning.gif}
                     className='oiia-dancing'
